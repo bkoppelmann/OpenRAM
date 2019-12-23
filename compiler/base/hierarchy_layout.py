@@ -41,8 +41,16 @@ class layout():
         self.is_library_cell = False # Flag for library cells 
         self.gds_read()
         try:
-            from tech import power_grid
-            self.pwr_grid_layer = power_grid[0]
+            from tech import power_grid, preferred_directions
+            if preferred_directions[power_grid[0]] == "H":
+                self.pwr_grid_layer = power_grid[0]
+            elif preferred_directions[power_grid[2]] == "H":
+                self.pwr_grid_layer = power_grid[2]
+            else:
+                debug.warning("No horizontal metal layer specified in "\
+                              "power_grid, falling back to 'm3'")
+                self.pwr_grid_layer = "m3"
+
         except ImportError:
             self.pwr_grid_layer = "m3"
 
