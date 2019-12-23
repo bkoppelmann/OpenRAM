@@ -73,39 +73,39 @@ class supply_grid_router(router):
 
         # Get the pin shapes
         start_time = datetime.now()
-        #self.find_pins_and_blockages([self.vdd_name, self.gnd_name])
+        self.find_pins_and_blockages([self.vdd_name, self.gnd_name])
         print_time("Finding pins and blockages",datetime.now(), start_time, 3)
         # Add the supply rails in a mesh network and connect H/V with vias
         start_time = datetime.now()
         # Block everything
-        #self.prepare_blockages(self.gnd_name)
+        self.prepare_blockages(self.gnd_name)
         # Determine the rail locations
         self.route_supply_rails(self.gnd_name,0)
         
         # Block everything
-        #self.prepare_blockages(self.vdd_name)
+        self.prepare_blockages(self.vdd_name)
         # Determine the rail locations
         self.route_supply_rails(self.vdd_name,1)
         print_time("Routing supply rails",datetime.now(), start_time, 3)
         
         start_time = datetime.now()
-        #self.route_simple_overlaps(vdd_name)
-        #self.route_simple_overlaps(gnd_name)
+        self.route_simple_overlaps(vdd_name)
+        self.route_simple_overlaps(gnd_name)
         print_time("Simple overlap routing",datetime.now(), start_time, 3)
         
         # Route the supply pins to the supply rails
         # Route vdd first since we want it to be shorter
         start_time = datetime.now()
-        #self.route_pins_to_rails(vdd_name)
-        #self.route_pins_to_rails(gnd_name)
+        self.route_pins_to_rails(vdd_name)
+        self.route_pins_to_rails(gnd_name)
         print_time("Maze routing supplies",datetime.now(), start_time, 3)
         #self.write_debug_gds("final.gds",False)  
 
         # Did we route everything??
-        #if not self.check_all_routed(vdd_name):
-        #    return False
-        #if not self.check_all_routed(gnd_name):
-        #    return False
+        if not self.check_all_routed(vdd_name):
+            return False
+        if not self.check_all_routed(gnd_name):
+            return False
         
         return True
 
